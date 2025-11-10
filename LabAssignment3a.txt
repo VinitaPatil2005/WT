@@ -1,0 +1,40 @@
+!!!i have created repository and i have code now i want to push that code in the github...give me steps!!!
+
+
+## ✅ **1. Open Terminal inside your Project Folder**
+
+cd your-project-folder
+
+
+## ✅ **2. Initialize Git (Only if not done before)**
+git init
+
+
+## ✅ **3. Add All Files to Staging**
+git add .
+
+
+## ✅ **4. Commit Your Code**
+git commit -m "Initial commit"
+
+
+## ✅ **5. Add the Remote GitHub Repository**
+git remote add origin <your-repo-url>
+
+
+
+## ✅ **6. Push Code to GitHub**
+git push -u origin main
+
+
+## 🎯 **If You Get Error: "main branch doesn't exist"**
+
+Create main branch and push:
+git branch -M main
+git push -u origin main
+
+
+## ✅ Done!
+
+Your code is now uploaded to GitHub 🎉🚀
+

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CityEvents - Discover Local Events</title>
+
+  <!-- jQuery & jQuery Mobile CDN -->
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .logo { font-weight:700; font-size:18px; }
+    .hero { padding: 1.2rem; text-align: center; background: #f5f5f5; border-radius: 10px; margin-bottom: 1rem; }
+    .btn-wide { display:block; width:90%; margin:0.4rem auto; }
+    .card { padding: .8rem; border-radius:8px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.08); margin-bottom: 1rem; }
+    .highlight { color: #007BFF; font-weight: bold; }
+    .interactive:hover { background: #e6f7ff; cursor: pointer; transition: 0.3s; }
+    .icon-home-btn { position: absolute; right: 10px; top: 10px; }
+  </style>
+</head>
+<body>
+
+  <!-- Home page -->
+  <div data-role="page" id="home">
+    <div data-role="header" data-position="fixed">
+      <h1 class="logo">CityEvents</h1>
+      <a href="#menuHome" data-icon="bars" class="ui-btn-right">Menu</a>
+    </div>
+
+    <div data-role="panel" id="menuHome" data-display="overlay" data-position="right">
+      <h3>Menu</h3>
+      <ul data-role="listview">
+        <li class="interactive"><a href="#home">Home</a></li>
+        <li class="interactive"><a href="#about">About</a></li>
+        <li class="interactive"><a href="#contact">Contact</a></li>
+        <li class="interactive"><a href="#events">Upcoming Events</a></li>
+        <li class="interactive"><a href="#categories">Event Categories</a></li>
+        <li class="interactive"><a href="#signup">Sign Up</a></li>
+      </ul>
+    </div>
+
+    <div role="main" class="ui-content">
+      <div class="hero card">
+        <h2>Welcome to <span class="highlight">CityEvents</span>!</h2>
+        <p>Discover exciting local events and never miss out on what’s happening around you.</p>
+      </div>
+
+      <h3>Quick Links</h3>
+      <ul data-role="listview" data-inset="true">
+        <li class="interactive"><a href="#events" data-transition="slide">Upcoming Events</a></li>
+        <li class="interactive"><a href="#categories" data-transition="slide">Event Categories</a></li>
+        <li class="interactive"><a href="#signup" data-transition="slide">Sign Up for Updates</a></li>
+      </ul>
+
+      <a href="#popupInfo" data-rel="popup" class="ui-btn ui-icon-info ui-btn-icon-left btn-wide">App Info</a>
+      <div data-role="popup" id="popupInfo" class="ui-content" style="max-width:300px;">
+        <p><strong>CityEvents</strong> is your go-to app for discovering local events, workshops, concerts, meetups, and festivals in your city. Stay informed, plan your weekends, and connect with your community.</p>
+      </div>
+    </div>
+
+    <div data-role="footer" data-position="fixed">
+      <h4>&copy; 2025 CityEvents</h4>
+    </div>
+  </div>
+
+  <!-- Additional pages -->
+  <div data-role="page" id="events">
+    <div data-role="header" data-position="fixed">
+      <h1>Upcoming Events</h1>
+      <a href="#home" class="ui-btn ui-btn-inline ui-icon-home ui-btn-icon-notext icon-home-btn">Home</a>
+    </div>
+    <div role="main" class="ui-content">
+      <ul data-role="listview">
+        <li>Music Concert - 15th Oct</li>
+        <li>Art Workshop - 20th Oct</li>
+        <li>Food Festival - 25th Oct</li>
+      </ul>
+    </div>
+  </div>
+
+  <div data-role="page" id="categories">
+    <div data-role="header" data-position="fixed">
+      <h1>Event Categories</h1>
+      <a href="#home" class="ui-btn ui-btn-inline ui-icon-home ui-btn-icon-notext icon-home-btn">Home</a>
+    </div>
+    <div role="main" class="ui-content">
+      <ul data-role="listview">
+        <li>Music</li>
+        <li>Art & Culture</li>
+        <li>Food & Drinks</li>
+        <li>Workshops</li>
+      </ul>
+    </div>
+  </div>
+
+  <div data-role="page" id="signup">
+    <div data-role="header" data-position="fixed">
+      <h1>Sign Up</h1>
+      <a href="#home" class="ui-btn ui-btn-inline ui-icon-home ui-btn-icon-notext icon-home-btn">Home</a>
+    </div>
+    <div role="main" class="ui-content">
+      <form id="signupForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <button type="submit" class="ui-btn ui-btn-inline">Subscribe</button>
+      </form>
+      <div id="signupResult"></div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $('.interactive a').on('click', function(){
+        $(this).closest('li').css('background-color', '#d0eaff');
+      });
+
+      $(document).on('submit', '#contactForm', function(e){
+        e.preventDefault();
+        var name = $('#name').val() || 'Friend';
+        $('#formResult').html('<div class="ui-body ui-body-a ui-corner-all">Thanks, '+ $('<div>').text(name).html() +'. We received your message.</div>');
+        $(this).trigger('reset');
+      });
+
+      $(document).on('submit', '#signupForm', function(e){
+        e.preventDefault();
+        var email = $('#email').val();
+        $('#signupResult').html('<div class="ui-body ui-body-a ui-corner-all">Thank you for subscribing with '+ $('<div>').text(email).html() +'.</div>');
+        $(this).trigger('reset');
+      });
+    });
+  </script>
+
+</body>
+</html>

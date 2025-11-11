@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple CRUD App</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    h1 { color: #333; }
+    input, textarea { width: 300px; padding: 8px; margin: 5px 0; }
+    button { padding: 6px 12px; margin-right:5px; background:#007bff; color:white; border:none; cursor:pointer; }
+    button:hover { background:#0056b3; }
+    .item {
+      border: 1px solid #ddd; padding: 10px; margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simple CRUD Example</h1>
+
+  <h3>Add New Item</h3>
+  <input type="text" id="title" placeholder="Enter Title"><br>
+  <textarea id="description" placeholder="Enter Description"></textarea><br>
+  <button onclick="addItem()">Add Item</button>
+
+  <hr>
+
+  <h3>Items List</h3>
+  <div id="items"></div>
+
+<script>
+const API_URL = "http://localhost:5001/api/items";
+
+window.onload = getItems;
+
+function getItems() {
+  fetch(API_URL)
+    .then(res => res.json())
+    .then(data => {
+      let list = "";
+      data.forEach(item => {
+        list += `
+          <div class="item" id="item-${item._id}">
+            <strong>${item.title}</strong><br>
+            ${item.description}<br><br>
+
+            <button onclick="enableEdit('${item._id}', '${item.title}', \`${item.description}\`)">Edit</button>
+            <button onclick="deleteItem('${item._id}')" style="background:#dc3545;">Delete</button>
+          </div>
+        `;
+      });
+      document.getElementById("items").innerHTML = list;
+    });
+}
+
+function addItem() {
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+
+  fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, description })
+  })
+  .then(() => {
+    document.getElementById("title").value = "";
+    document.getElementById("description").value = "";
+    getItems();
+  });
+}
+
+function deleteItem(id) {
+  fetch(`${API_URL}/${id}`, { method: "DELETE" })
+  .then(() => getItems());
+}
+
+function enableEdit(id, title, description) {
+  const itemDiv = document.getElementById(`item-${id}`);
+
+  itemDiv.innerHTML = `
+    <input type="text" id="edit-title-${id}" value="${title}"><br>
+    <textarea id="edit-description-${id}">${description}</textarea><br>
+    <button onclick="updateItem('${id}')">Save</button>
+    <button onclick="getItems()" style="background:#6c757d;">Cancel</button>
+  `;
+}
+
+function updateItem(id) {
+  const newTitle = document.getElementById(`edit-title-${id}`).value;
+  const newDescription = document.getElementById(`edit-description-${id}`).value;
+
+  fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: newTitle, description: newDescription })
+  })
+  .then(() => getItems());
+}
+</script>
+
+</body>
+</html>
